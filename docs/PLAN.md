@@ -414,7 +414,7 @@ Both code blocks below are the ruff-formatted versions verified in the reference
 `ruff format --check` passes on them as written (the earlier draft's `results.append({...})`
 one-liner and the test's list-comprehension/assert lines exceeded formatter width).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_research.py`:
 
@@ -485,12 +485,12 @@ async def test_extract_strips_html(monkeypatch):
     assert "script" not in out["https://a.example/one"]
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `.venv/bin/pytest tests/test_research.py -v`
 Expected: FAIL — `ModuleNotFoundError` / `AttributeError`.
 
-- [ ] **Step 3: Implement `codex8/core/clients/research.py`**
+- [x] **Step 3: Implement `codex8/core/clients/research.py`**
 
 ```python
 """Web research via GPT-5.6 hosted web_search + plain HTTP fetch — replaces Tavily.
@@ -634,9 +634,9 @@ async def extract(urls: list[str], *, search_depth: str = "advanced") -> dict[st
     return {url: text for url, text in pairs if text}
 ```
 
-- [ ] **Step 4: Run to green** — `.venv/bin/pytest tests/test_research.py -v` → 3 passed.
+- [x] **Step 4: Run to green** — `.venv/bin/pytest tests/test_research.py -v` → 3 passed.
 
-- [ ] **Step 5: Write `scripts/smoke_research.py`** (manual, live — NOT collected by pytest)
+- [x] **Step 5: Write `scripts/smoke_research.py`** (manual, live — NOT collected by pytest)
 
 ```python
 """Live smoke: python scripts/smoke_research.py 'your query' — needs OPENAI_API_KEY."""
@@ -667,7 +667,7 @@ Expected: ≥1 URL printed with non-empty page text. If the Responses API annota
 differs from the mocked one, fix `search()` to match reality and re-run both the unit
 tests and this smoke — reality wins over the mock.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add codex8/core/clients/research.py tests/test_research.py scripts/smoke_research.py
