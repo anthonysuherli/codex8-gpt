@@ -925,7 +925,7 @@ git commit -m "feat: agent layer — preamble/synopsis/concepts on GPT-5.6 (anth
 - Produces: `run_exploration(prompt, *, exploration_id, project_id, kb_id, cfg) -> list`
   (re-exported from `codex8.core.exploration` exactly as upstream's `__init__.py` does).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_exploration.py` — the mock shapes below are the verified ones:
 `structured_completion` returns **pydantic instances**, not raw dicts. `plan_queries`
@@ -1026,9 +1026,9 @@ async def test_run_exploration_smoke(monkeypatch):
     assert abs(f.confidence - 0.36) < 1e-9
 ```
 
-- [ ] **Step 2: Run to verify failure.**
+- [x] **Step 2: Run to verify failure.**
 
-- [ ] **Step 3: Port all nine files** (the `Files` line and the loop below list nine:
+- [x] **Step 3: Port all nine files** (the `Files` line and the loop below list nine:
   `__init__` plus eight modules)
 
 ```bash
@@ -1054,9 +1054,9 @@ mechanical swap breaks ruff line-length 100 — wrap the call as the reference b
 Nothing else changes (the Task 4 surface is signature-compatible). Run
 `.venv/bin/ruff format --check codex8/core/exploration/` before committing.
 
-- [ ] **Step 4: Run to green** — `.venv/bin/pytest tests/test_exploration.py -v` → 2 passed.
+- [x] **Step 4: Run to green** — `.venv/bin/pytest tests/test_exploration.py -v` → 2 passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/core/exploration/ tests/test_exploration.py
