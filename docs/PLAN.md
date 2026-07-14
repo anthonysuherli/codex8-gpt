@@ -1076,7 +1076,7 @@ git commit -m "feat: exploration pipeline on GPT-5.6 — research client replace
   (imported by `concept_doc.py` — Task 6 already references it, so this task makes the
   agent package import cleanly end-to-end).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_knowledge_graph.py` — the cross-task import check uses a `find_spec` skip so
 this file is green even if the agent package (Task 6) has not landed (out-of-order or
@@ -1153,9 +1153,9 @@ async def test_read_graph_returns_seeded_nodes_and_edges(tmp_path):
     assert all(n["aliases"] == [] and n["merge_count"] == 0 for n in graph["nodes"])
 ```
 
-- [ ] **Step 2: Run to verify failure.**
+- [x] **Step 2: Run to verify failure.**
 
-- [ ] **Step 3: Port the six modules** (same copy+rename recipe — `delapan.*` → `codex8.*`,
+- [x] **Step 3: Port the six modules** (same copy+rename recipe — `delapan.*` → `codex8.*`,
   `ai_gateway` → `openai_client`) with two verified seams beyond imports:
 
   1. **`builder.py` — decouple from the agent package.** Upstream does a module-level
@@ -1185,14 +1185,14 @@ if TYPE_CHECKING:
      delapan", "Mirrors delapan's guard") — they are factual lineage; a blind
      `delapan` → `codex8` sweep corrupts them.
 
-- [ ] **Step 4: Run the FULL suite to green** — `.venv/bin/pytest -v`. Executed in order,
+- [x] **Step 4: Run the FULL suite to green** — `.venv/bin/pytest -v`. Executed in order,
   this is the first point where every `codex8.core` package must import cleanly together.
   (If tasks ran out of order and Task 6 has not landed, the `find_spec` test above skips
   and re-activates on the first full-suite pass after the agent package exists — verify
   this task standalone with its own test file plus explicit imports of all six kg
   modules.)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/core/knowledge_graph/ tests/test_knowledge_graph.py
