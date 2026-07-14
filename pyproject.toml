@@ -1,0 +1,32 @@
+[project]
+name = "codex8"
+version = "0.1.0"
+description = "Knowledge engine plugin for Codex — GPT-5.6 as the only agent, one key, local-first"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+dependencies = [
+  "pydantic>=2.12.5",
+  "pydantic-settings>=2.12.0",
+  "pyyaml>=6.0.3",
+  "httpx>=0.28.1",
+  "openai>=2.7.0",
+  "mcp>=1.9.0",
+  "sqlite-vec>=0.1.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=1.0", "ruff>=0.11"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["codex8"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
