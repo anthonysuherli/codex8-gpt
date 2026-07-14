@@ -322,7 +322,7 @@ git commit -m "feat: config — single-key Settings, GPT-5.6 model defaults, C8_
   and `embeddings.embed_text(text) -> list[float]`, `embed_batch(texts) -> list[list[float]]`,
   `embed_with_retry(text, retries=2) -> list[float]`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_clients.py`:
 
@@ -362,12 +362,12 @@ async def test_client_points_at_openai_not_gateway(monkeypatch):
     assert "openai" in str(c.base_url)  # default https://api.openai.com/v1 — no gateway
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `.venv/bin/pytest tests/test_clients.py -v`
 Expected: FAIL — `ModuleNotFoundError: No module named 'codex8.core.clients'`
 
-- [ ] **Step 3: Port both modules**
+- [x] **Step 3: Port both modules**
 
 ```bash
 mkdir -p codex8/core/clients && touch codex8/core/clients/__init__.py
@@ -384,9 +384,9 @@ Edits in `embeddings.py`: rename imports; `_get_client()` returns
 `AsyncOpenAI(api_key=settings.openai_api_key)` (no gateway branch, no `base_url`); keep
 both `dimensions=emb.dim` arguments exactly as upstream.
 
-- [ ] **Step 4: Run to green** — `.venv/bin/pytest tests/test_clients.py -v` → 2 passed.
+- [x] **Step 4: Run to green** — `.venv/bin/pytest tests/test_clients.py -v` → 2 passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/core/clients/ tests/test_clients.py
