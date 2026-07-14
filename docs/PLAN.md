@@ -1220,7 +1220,7 @@ git commit -m "feat: knowledge graph port — finding→KG extraction on GPT-5.6
   calls `maybe_rebuild_synopsis` (after persisting findings); `select_preamble` does a
   pure store read via `load_synopsis`, so no synopsis mock is needed.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_mcp_server.py` — two verified test-shape corrections baked in: (1) the
 resume path embeds through `codex8.core.agent.preamble`'s own module-level `embed_text`
@@ -1259,9 +1259,9 @@ async def test_projects_lists_created_kb(tmp_path, monkeypatch):
     assert "p" in names
 ```
 
-- [ ] **Step 2: Run to verify failure.**
+- [x] **Step 2: Run to verify failure.**
 
-- [ ] **Step 3: Port the four modules**
+- [x] **Step 3: Port the four modules**
 
 ```bash
 mkdir -p codex8/mcp
@@ -1278,13 +1278,13 @@ you edit; keep `resolve_tenant`'s `create: bool = True` keyword and the
 wordmark text to `c o d e x 8` keeping the layout. Server name string in the FastMCP
 constructor → `"codex8"`.
 
-- [ ] **Step 4: Run to green, then boot check**
+- [x] **Step 4: Run to green, then boot check**
 
 Run: `.venv/bin/pytest tests/test_mcp_server.py -v` → 2 passed.
 Run: `printf '' | .venv/bin/python -m codex8.mcp.server; echo "exit=$?"`
 Expected: starts and exits cleanly on closed stdin (no traceback).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/mcp/ tests/test_mcp_server.py
