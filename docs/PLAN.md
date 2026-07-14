@@ -697,7 +697,7 @@ git commit -m "feat: research client — hosted web_search + keyless page extrac
   (no `limit` kwarg; `min_similarity` required), `insert_findings`,
   `create_exploration`, synopsis read/write, KG node/edge upserts.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_store.py`:
 
@@ -737,9 +737,9 @@ def test_get_store_is_always_sqlite(tmp_path, monkeypatch):
     assert isinstance(get_store(), SQLiteStore)
 ```
 
-- [ ] **Step 2: Run to verify failure** — `ModuleNotFoundError: codex8.store`.
+- [x] **Step 2: Run to verify failure** — `ModuleNotFoundError: codex8.store`.
 
-- [ ] **Step 3: Port the three files**
+- [x] **Step 3: Port the three files**
 
 ```bash
 mkdir -p codex8/store
@@ -770,9 +770,9 @@ Edits:
   `.venv/bin/ruff format codex8/store/sqlite.py` after the port; the diff is
   whitespace-only, DDL and SQL untouched.
 
-- [ ] **Step 4: Run to green** — `.venv/bin/pytest tests/test_store.py -v` → 2 passed.
+- [x] **Step 4: Run to green** — `.venv/bin/pytest tests/test_store.py -v` → 2 passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/store/ tests/test_store.py
