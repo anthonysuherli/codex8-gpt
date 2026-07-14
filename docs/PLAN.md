@@ -69,7 +69,7 @@ unexecuted and are the re-executor's responsibility:
 **Interfaces:**
 - Produces: installable package `codex8`, `pytest` runs, `FAKE_EMBEDDING` fixture.
 
-- [ ] **Step 1: Commit the prior-work snapshot separately (evidence boundary)**
+- [x] **Step 1: Commit the prior-work snapshot separately (evidence boundary)**
 
 ```bash
 git add _upstream/
@@ -78,7 +78,7 @@ git add SPEC.md AGENTS.md docs/ README.md LICENSE .gitignore .env.example
 git commit -m "chore: scaffold — spec, plan, agent instructions"
 ```
 
-- [ ] **Step 2: Write `pyproject.toml`**
+- [x] **Step 2: Write `pyproject.toml`**
 
 ```toml
 [project]
@@ -115,7 +115,7 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 ```
 
-- [ ] **Step 3: Create the package and shared fixtures**
+- [x] **Step 3: Create the package and shared fixtures**
 
 `codex8/__init__.py`:
 
@@ -141,12 +141,12 @@ def fake_embedding_other() -> list[float]:
     return [-0.1] * 1536
 ```
 
-- [ ] **Step 4: Verify install + empty test run**
+- [x] **Step 4: Verify install + empty test run**
 
 Run: `uv venv && uv pip install -e ".[dev]" && .venv/bin/pytest`
 Expected: `no tests ran` (exit code 5 is fine at this point).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add pyproject.toml codex8/__init__.py tests/conftest.py
@@ -171,7 +171,7 @@ git commit -m "chore: package skeleton, deps, test fixtures"
   `okf` is kept: upstream `AppConfig` carries an `okf` slot and the model-defaults table
   below retunes `OKFConfig.model`). Both `@lru_cache`'d, exactly as upstream.
 
-- [ ] **Step 0: Verify GPT-5.6 API model IDs (one manual check, before any code)** —
+- [x] **Step 0: Verify GPT-5.6 API model IDs (one manual check, before any code)** —
   **LIVE, not run in the reference build**
 
 Run: `curl -s https://api.openai.com/v1/models -H "Authorization: Bearer $OPENAI_API_KEY" | python3 -c "import json,sys; print([m['id'] for m in json.load(sys.stdin)['data'] if '5.6' in m['id'] or 'embedding' in m['id']])"`
@@ -179,7 +179,7 @@ Expected: IDs containing `gpt-5.6` tiers and `text-embedding-3-small`. If the ti
 differ from `gpt-5.6-terra` / `gpt-5.6-luna`, use the real IDs in every step below and in
 `config.yaml`, and note the substitution in the commit message.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_config.py`:
 
@@ -216,12 +216,12 @@ def test_env_override_uses_c8_prefix(monkeypatch):
     assert get_config().tiers.rich_hit_count == 7
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `.venv/bin/pytest tests/test_config.py -v`
 Expected: FAIL — `ModuleNotFoundError: No module named 'codex8.core'`
 
-- [ ] **Step 3: Port config.py**
+- [x] **Step 3: Port config.py**
 
 ```bash
 mkdir -p codex8/core && touch codex8/core/__init__.py
@@ -285,7 +285,7 @@ class Settings(BaseSettings):
 6. Update the comments that say models are "routed through Vercel AI Gateway" to say
    "OpenAI API model IDs".
 
-- [ ] **Step 4: Write `config.yaml`** — port the key set of `_upstream/config.yaml`
+- [x] **Step 4: Write `config.yaml`** — port the key set of `_upstream/config.yaml`
   **exactly** (same knobs, minus the `agent:` and `user_profile:` sections), all model
   values matching the table above, and the header comment explaining
   `C8_<SECTION>__<FIELD>` overrides (use the two examples from Step 3.1). Do NOT invent
@@ -294,12 +294,12 @@ class Settings(BaseSettings):
   `exploration.max_concurrent_searches` keys — `evaluation_model = "gpt-5.6-terra"` and
   `enable_evaluation = True` exist only as `ExplorationConfig` code defaults.
 
-- [ ] **Step 5: Run to green**
+- [x] **Step 5: Run to green**
 
 Run: `.venv/bin/pytest tests/test_config.py -v`
 Expected: 3 passed.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add codex8/core/ config.yaml tests/test_config.py

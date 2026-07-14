@@ -1,0 +1,146 @@
+# =============================================================================
+# Codex8 — tunable runtime config
+#
+# Human-editable knobs for search/retrieval and the research pipeline. These
+# are NOT secrets — API keys live in .env.
+#
+# Precedence (lowest → highest):
+#     built-in defaults  <  this file  <  environment variables
+#
+# Override any value at deploy time with C8_<SECTION>__<FIELD>, e.g.
+#     C8_TIERS__RICH_HIT_COUNT=7
+#     C8_SEARCH__MIN_SIMILARITY=0.2
+#
+# Point at a different file with CODEX8_CONFIG_FILE=/path/to/config.yaml.
+# Every value below is optional; delete a key to fall back to its default.
+# =============================================================================
+
+search:
+  default_limit: 20
+  max_limit: 100
+  min_similarity: 0.0
+  max_finding_chunks: 25
+
+tiers:
+  band1_min: 0.55
+  band2_min: 0.40
+  band3_min: 0.25
+  rich_hit_count: 3
+  preamble_char_budget: 7000
+
+synopsis:
+  model: gpt-5.6-luna
+  rebuild_delta: 15
+  rebuild_max_age_hours: 168
+  max_entries: 6
+
+# `explore` tool (web research pipeline). Models are OpenAI API model IDs.
+exploration:
+  planner_model: gpt-5.6-terra
+  extraction_model: gpt-5.6-terra
+  extraction_fallback_model: gpt-5.6-luna
+  temperature: 0.0
+  reasoning_effort: high
+  search_depth: advanced
+  search_mode: auto
+  max_results_per_query: 40
+  fallback_result_threshold: 10
+  expansion_result_threshold: 6
+  max_pages: 30
+  max_concurrent_extractions: 20
+  max_content_per_page: 200000
+  fuzzy_match_threshold: 0.80
+  min_confidence_threshold: 0.2
+  default_max_findings: 24
+  max_findings: 80
+
+narration:
+  enabled: true
+  model: gpt-5.6-luna
+  temperature: 0.3
+  max_tokens: 60
+
+okf:
+  model: gpt-5.6-terra
+  temperature: 0.3
+  max_tokens: 900
+
+deepen:
+  depth_cap: 3
+  min_rounds: 1
+  coverage_target: 0.8
+  facets_per_round: 4
+  max_concurrent_facets: 4
+  decompose_model: gpt-5.6-terra
+  critic_model: gpt-5.6-terra
+  temperature: 0.0
+  reasoning_effort: null
+
+embedding:
+  model: text-embedding-3-small
+  dim: 1536
+  input_char_cap: 8192
+  chunk_max_chars: 1800
+
+# KG build — extract entities/relations from findings into kg_nodes/kg_edges.
+# Models are OpenAI API model IDs, like `exploration`.
+knowledge_graph:
+  extraction_model: gpt-5.6-terra
+  extraction_fallback_model: gpt-5.6-luna
+  temperature: 0.0
+  max_findings: 200
+  max_finding_chars: 1200
+  node_match_threshold: 0.86
+  max_nodes: 400
+  max_edges: 1200
+  reasoning_effort: null
+
+concepts:
+  extract_model: gpt-5.6-terra
+  max_findings_context: 60
+  max_finding_chars: 1200
+  max_terms: 40
+
+prompts:
+  system_prompt: |
+    You are Codex8 — an agent that helps the user grow a knowledge base.
+
+    You have a set of tools that operate against the user's active KB. When the
+    user expresses intent that maps to a tool, call it. Otherwise reply
+    conversationally.
+
+    When a tool runs, narrate briefly what happened (don't restate the full
+    result; the UI shows tool cards inline).
+
+    Your messages already include a <preamble> of current KB context (a synopsis
+    plus query-relevant findings) and a coverage verdict; consult it before
+    calling explore.
+
+    Available tools and when to use them:
+      - explore(query, mode): research/recall the KB. mode=auto (KB first, web if
+        thin), recall (KB-only), research (force web). Findings persist to the KB.
+      - ingest_file(upload_id): process an uploaded file (PDF / MD / TXT)
+      - kg_view(focus?): open the knowledge graph viewer
+      - deploy_kb(): publish the KB as a context API, mint an API key
+
+    Be concise. Use markdown sparingly.
+  tool_descriptions:
+    explore: >-
+      Unified knowledge tool. mode=auto: search the KB first and only research the
+      web if coverage is thin; recall: KB-only semantic search (no web); research:
+      force the full web research pipeline. depth controls breadth. New findings
+      persist to the active KB. Use whenever the user wants to look something up,
+      learn, or research a topic.
+    ingest_file: >-
+      Process an uploaded file (PDF / MD / TXT) — extract text, chunk into
+      findings, embed, and persist to the knowledge base.
+    kg_view: Open the knowledge graph viewer. Optionally focus on a concept.
+    deploy_kb: >-
+      Publish the active KB as a context API. Flips published=true, mints a new
+      API key, and returns the key (shown to the user once).
+    deepen: >-
+      Autonomous, gap-following deep research: decompose a topic into facets,
+      research them in parallel, judge remaining gaps, and loop until coverage is
+      sufficient or a depth cap is hit. Returns a run_id immediately; poll deepen
+      status for progress. Use for thorough, multi-round research where the user
+      cedes per-facet control.
