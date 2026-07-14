@@ -1303,7 +1303,7 @@ git commit -m "feat: MCP server — codex8_resume/search/explore/projects, local
 - Produces: a Codex-discoverable plugin — `[mcp_servers.codex8]` in `~/.codex/config.toml`
   plus skills under `~/.codex/skills/codex8-*`.
 
-- [ ] **Step 1: Write the four skills.** Frontmatter format: `name` + `description`.
+- [x] **Step 1: Write the four skills.** Frontmatter format: `name` + `description`.
   Content pattern (write all four; `resume` shown in full). Note: this short
   Codex-flavored template is a **deliberate divergence** from upstream's richer SKILL.md
   shape (Target-resolution bash block, Workflow, When-to-use sections) — the skills are a
@@ -1335,7 +1335,7 @@ answer from ranked findings, cite finding titles.
 blocks 1–3 minutes and needs `OPENAI_API_KEY`; afterwards re-run `codex8_resume`.
 `skills/projects/SKILL.md` — call `codex8_projects`, render the project/KB table.
 
-- [ ] **Step 2: Write `install.sh`**
+- [x] **Step 2: Write `install.sh`**
 
 ```bash
 #!/usr/bin/env bash
@@ -1366,7 +1366,7 @@ echo "linked skills: codex8-{resume,search,explore,projects} → $SKILLS_DIR"
 echo "done — restart Codex to pick up the server."
 ```
 
-- [ ] **Step 3: Write `tests/test_plugin_shell.py`** — the plan preamble mandates a
+- [x] **Step 3: Write `tests/test_plugin_shell.py`** — the plan preamble mandates a
   failing-test-first cycle per task; this file is the shell's automated check (skill
   frontmatter/tool-name assertions + installer register/idempotency/symlink assertions,
   driven through a subprocess with `CODEX_HOME` pointed at `tmp_path`):
@@ -1423,7 +1423,7 @@ def test_installer_is_idempotent(tmp_path):
     assert config.count("[mcp_servers.codex8]") == 1
 ```
 
-- [ ] **Step 4: Verify — hermetic idempotency check** (never against the real `~/.codex`;
+- [x] **Step 4: Verify — hermetic idempotency check** (never against the real `~/.codex`;
   `install.sh` honors the `CODEX_HOME` override)
 
 Run:
@@ -1444,7 +1444,7 @@ count = 1. (This task ships no new Python module, so the per-task import anchor 
   session in any folder, and confirm the `codex8_projects` tool is callable and skills
   appear. This is the Phase 2 gate.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add skills/ install.sh tests/test_plugin_shell.py
