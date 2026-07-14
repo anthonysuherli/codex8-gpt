@@ -795,7 +795,7 @@ git commit -m "feat: local-only store — SQLite + sqlite-vec, cloud branch remo
   with **six required fields**: `user_id`, `org_id`, `project_id`, `kb_id`, `thread_id`
   (no default — upstream tenancy passes `str(uuid.uuid4())`), `access_token`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/test_agent.py`:
 
@@ -870,9 +870,9 @@ only hand-written seam — the first two tests never exercise it. It runs
 `maybe_rebuild_synopsis` end-to-end against a real tmp SQLiteStore with only the LLM
 mocked, and asserts `load_synopsis` returns the parsed entries.
 
-- [ ] **Step 2: Run to verify failure.**
+- [x] **Step 2: Run to verify failure.**
 
-- [ ] **Step 3: Port the four modules**
+- [x] **Step 3: Port the four modules**
 
 ```bash
 mkdir -p codex8/core/agent && touch codex8/core/agent/__init__.py
@@ -903,9 +903,9 @@ its single LLM call site (`_build`) to use
 - Drop the now-dead `isinstance(resp.content, str)` guard — `text_completion` returns
   `str` directly. Prompt strings stay verbatim.
 
-- [ ] **Step 4: Run to green** — `.venv/bin/pytest tests/test_agent.py -v` → 3 passed.
+- [x] **Step 4: Run to green** — `.venv/bin/pytest tests/test_agent.py -v` → 3 passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add codex8/core/agent/ tests/test_agent.py
